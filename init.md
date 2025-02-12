@@ -1,3 +1,4 @@
+```
 my_project/
 │
 ├── data/                   # 存放原始数据和清理后的数据
@@ -70,8 +71,9 @@ my_project/
         ├── __init__.py
         ├── log_config.py       # 日志配置文件（如日志级别、输出位置等）
         ├── logger.py           # 日志记录的主逻辑
+```
 
-
+```
 my_data_analysis_project/
 │
 ├── config/                # 配置文件
@@ -110,3 +112,4 @@ my_data_analysis_project/
 ├── .gitignore             # Git忽略文件配置
 ├── LICENSE                # 开源协议
 └── README.md              # 项目描述、使用指南等
+```
