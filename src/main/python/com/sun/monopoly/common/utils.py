@@ -1,6 +1,7 @@
 import csv
 import datetime
 import os
+import random
 from pathlib import Path
 
 import pandas
@@ -18,29 +19,48 @@ def __get_raw_data_path__():
     r"""get resources directory ."""
     return __root__() / consts.PATH_RAW_DATA
 
-def get_config_path():
+
+def __get_feature_data_path__():
+    r"""get resources directory ."""
+    return __root__() / consts.PATH_FEATURE_DATA
+
+
+def __get_config_path__():
     return __root__() / consts.PATH_CONFIG
 
 
-def get_ssq_data_raw_path():
-    return __get_raw_data_path__() / consts.CSV_SSQ
+def get_log_path():
+    return __get_config_path__() / consts.CONFIG_LOG_PATH
 
 
-def get_dlt_data_raw_path():
-    return __get_raw_data_path__() / consts.CSV_DLT
+def get_app_path():
+    return __get_config_path__() / consts.CONFIG_APP_PATH
 
 
-def read_csv(file_path, file_name, headers):
-    file = r'{}/{}'.format(file_path, file_name)
-    return pandas.read_csv(file, header=None, names=headers)
+def get_data_raw_ssq_file_path():
+    return __get_raw_data_path__() / consts.FILE_SSQ
 
 
-def write_csv(file_path, file_name, file_fields, body):
+def get_data_raw_dlt_file_path():
+    return __get_raw_data_path__() / consts.FILE_DLT
+
+
+def get_data_ssq_count_file_path():
+    return __get_feature_data_path__() / consts.FILE_COUNT_SSQ
+
+
+def get_data_ssq_similarity_file_path():
+    return __get_feature_data_path__() / consts.FILE_SIMILARITY_SSQ
+
+
+def read_csv(file_path):
+    file = r'{}.csv'.format(file_path)
+    return pandas.read_csv(file)
+
+
+def write_csv(file_path, fields, body):
     # name of csv file
-    file = r'{}/{}'.format(file_path, file_name)
-
-    # field names
-    fields = file_fields
+    file = r'{}.csv'.format(file_path)
 
     with open(file, 'w', encoding="utf-8", newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fields)
@@ -48,8 +68,18 @@ def write_csv(file_path, file_name, file_fields, body):
         writer.writerows(body)
 
 
-def write_excel(file_path, file_name, sheet_name, df):
-    file = r'{}/{}.xlsx'.format(file_path, file_name)
+def append_csv(file_path, body):
+    # name of csv file
+    file = r'{}.csv'.format(file_path)
+
+    with open(file, 'a', encoding="utf-8", newline='') as csvfile:
+        writer = csv.writer(file)
+        # 写入新数据行
+        writer.writerow(body)
+
+
+def write_excel(file_path, sheet_name, df):
+    file = r'{}.xlsx'.format(file_path)
     if not os.path.exists(file):
         df.to_excel(file, header=False, index=False, sheet_name=sheet_name)
 
@@ -57,8 +87,8 @@ def write_excel(file_path, file_name, sheet_name, df):
         df.to_excel(writer, header=False, index=False, sheet_name=sheet_name)
 
 
-def remove_excel(file_path, file_name):
-    file = r'{}/{}.xlsx'.format(file_path, file_name)
+def remove_excel(file_path):
+    file = r'{}.xlsx'.format(file_path)
     if os.path.exists(file):
         os.remove(file)
 
@@ -77,7 +107,23 @@ def is_work_day(target_day):
     _day = target_day.day
     date = datetime.date(_year, _month, _day)
 
-    if (date.weekday() == 5
-            or date.weekday() == 6):
+    if date.weekday() == 5 or date.weekday() == 6:
         return False
     return True
+
+
+def randoms(scope, count):
+    return random.sample(range(1, scope + 1), count)
+
+
+# return string randoms
+def randoms_s(scope, count):
+    r = randoms(scope, count)
+    result = []
+    for i in r:
+        if i < 10:
+            result.append(str(i).zfill(2))
+        else:
+            result.append(str(i))
+
+    return result

@@ -12,7 +12,7 @@ url = 'http://datachart.500.com/ssq/history/newinc/history.php?start=03001&end=9
 
 def run():
     data = agent()
-    write(data)
+    utils.write_csv(utils.get_data_raw_ssq_file_path(), consts.FIELDS_SSQ, data)
 
 
 def agent():
@@ -49,18 +49,3 @@ def agent():
         result.append(data)
 
     return result
-
-
-def write(body):
-    r"""create ssq data csv. """
-
-    # name of csv file
-    filename = utils.get_ssq_data_raw_path()
-
-    # field names
-    fields = consts.FIELDS_SSQ
-
-    with open(filename, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fields)
-        writer.writeheader()
-        writer.writerows(body)

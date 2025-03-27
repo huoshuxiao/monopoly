@@ -12,7 +12,7 @@ url = 'http://datachart.500.com/dlt/history/newinc/history.php?start=03001&end=9
 
 def run():
     data = agent()
-    write(data)
+    utils.write_csv(utils.get_data_raw_dlt_file_path(), consts.FIELDS_DLT, data)
 
 
 def agent():
@@ -49,18 +49,3 @@ def agent():
         result.append(data)
 
     return result
-
-
-def write(body):
-    r"""create dlt data csv. """
-
-    # name of csv file
-    filename = utils.get_dlt_data_raw_path()
-
-    # field names
-    fields = consts.FIELDS_DLT
-
-    with open(filename, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fields)
-        writer.writeheader()
-        writer.writerows(body)
