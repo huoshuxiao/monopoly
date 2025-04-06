@@ -3,13 +3,14 @@ import random
 
 from com.sun.monopoly.common import utils
 from com.sun.monopoly.config.logger import logger
-from com.sun.monopoly.features import similarity
 
 tag = 'model'
 
 
 def run():
-    __run_ssq__()
+    result = __run_ssq__()
+    if result:
+        return result
 
 
 def __run_ssq__():
@@ -27,9 +28,7 @@ def __run_ssq__():
         count = __get_ssq_random_count__()
         __bonus__ = __do_ssq_bonus__(count)
         logger.info(r'<<{}>> no :: {}, day :: {}, bonus :: {}'.format(tag, no, today, __bonus__))
-
-        # 计算生成号码的相似度
-        similarity.ssq(__bonus__)
+        return __bonus__
 
 
 def __get_ssq_random_count__():
@@ -38,8 +37,8 @@ def __get_ssq_random_count__():
               (10000000, 11000000), (11000000, 12000000), (12000000, 13000000), (13000000, 14000000), (14000000, 15000000), (15000000, 16000000), (16000000, 17000000), (17000000, 18000000), (18000000, 19000000), (19000000, 20000000),
               (20000000, 21000000), (21000000, 22000000), (22000000, 23000000), (23000000, 24000000), (24000000, 25000000), (25000000, 26000000), (26000000, 27000000), (27000000, 28000000),
               (30000000, 31000000), (31000000, 32000000), (33000000, 34000000)]
+    # logger.info(r'<<{}>> range :: {}'.format(tag, ranges))
 
-    logger.info(r'<<{}>> range :: {}'.format(tag, ranges))
     # numpy.random.choice() 从多个区间中选择一个值
     # 随机选择一个范围并从中生成一个随机整数。
     selected_range = random.choice(ranges)

@@ -1,5 +1,6 @@
 APP_ID = 'monopoly'
 
+ROOT_PATH = 'lottery'
 CONFIG_LOG_PATH = 'logging.yaml'
 CONFIG_APP_PATH = 'application.yaml'
 

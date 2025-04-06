@@ -41,7 +41,7 @@ def ssq(bonus):
     for j in range(0, len(red_text) - 1):
         pool_data = red_text[j] + ',B' + blue_text[j]
         bonus_data = ','.join(bonus.split(',')[0:6]) + ',B' + ','.join(bonus.split(',')[6:7])
-        score = __similarity_score_(pool_data, bonus_data)
+        score = __similarity_score__(pool_data, bonus_data)
         print("日期：{} 当期号码：{} 池号码：{} 相似度得分:{} ".format(bonus_date, bonus_data.replace('B', ''), pool_data.replace('B', ''), score))
         # logger.info("日期：{} 当期号码：{} 池号码：{} 相似度得分:{} ".format(bonus_date, bonus_data.replace('B', ''), pool_data.replace('B', ''), score))
 
@@ -57,11 +57,13 @@ def ssq(bonus):
     utils.write_csv(str(utils.get_data_ssq_similarity_file_path()) + '_' + bonus_date, ['date', 'current', 'pool', 'score', '_date'], result)
     # 各相似度 数量
     # print(pd.DataFrame.from_records(result)['score'].value_counts())
-    logger.info('各相似度 数量 :: \n%s', pd.DataFrame.from_records(result)['score'].value_counts().to_string())
+    similarity_result = pd.DataFrame.from_records(result)['score'].value_counts()
+    logger.info('各相似度 数量 :: \n%s', similarity_result.to_string())
+    return similarity_result
 
 
 # Jaccard相似度通过计算两个集合之间的交集和并集之间的比率来衡量相似性。
-def __similarity_score_(arr1, arr2):
+def __similarity_score__(arr1, arr2):
     set1 = set(arr1.split(","))
     set2 = set(arr2.split(","))
     intersection = set1.intersection(set2)

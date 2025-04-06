@@ -1,18 +1,18 @@
 # 数据爬取
 
-import csv
-
 import requests
 from bs4 import BeautifulSoup
 
 from com.sun.monopoly.common import utils, consts
+from com.sun.monopoly.config.logger import logger
 
 url = 'http://datachart.500.com/dlt/history/newinc/history.php?start=03001&end=99999&sort=1'
-
+tag = 'data'
 
 def run():
     data = agent()
     utils.write_csv(utils.get_data_raw_dlt_file_path(), consts.FIELDS_DLT, data)
+    logger.info(r'<<{}>> {} :: {}'.format(tag, 'dlt', data[-1]))
 
 
 def agent():

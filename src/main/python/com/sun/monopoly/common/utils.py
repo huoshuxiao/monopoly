@@ -73,7 +73,7 @@ def append_csv(file_path, body):
     file = r'{}.csv'.format(file_path)
 
     with open(file, 'a', encoding="utf-8", newline='') as csvfile:
-        writer = csv.writer(file)
+        writer = csv.writer(csvfile)
         # 写入新数据行
         writer.writerow(body)
 

@@ -8,4 +8,4 @@ if __name__ == '__main__':
         __years__ = sys.argv[1].split(',')
         p_counts.run_ssq_count(__years__)
     else:
-        counts.run_ssq_count()
+        counts.run_last_ssq_count()

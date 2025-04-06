@@ -1,18 +1,18 @@
 # 数据爬取
 
-import csv
-
 import requests
 from bs4 import BeautifulSoup
 
 from com.sun.monopoly.common import utils, consts
+from com.sun.monopoly.config.logger import logger
 
 url = 'http://datachart.500.com/ssq/history/newinc/history.php?start=03001&end=99999&sort=1'
-
+tag = 'data'
 
 def run():
     data = agent()
     utils.write_csv(utils.get_data_raw_ssq_file_path(), consts.FIELDS_SSQ, data)
+    logger.info(r'<<{}>> {} :: {}'.format(tag, 'ssq', data[-1]))
 
 
 def agent():
