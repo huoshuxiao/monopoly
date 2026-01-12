@@ -12,9 +12,9 @@ from com.sun.monopoly.common import utils
 tag = 'visualization'
 
 def draw_ssq():
-    file_name = '_2025'
-    df = utils.read_csv(str(utils.get_data_ssq_count_file_path()) + file_name)
-    # df = utils.read_csv(utils.get_data_ssq_count_file_path())
+    # file_name = '_2025'
+    # df = utils.read_csv(str(utils.get_data_ssq_count_file_path()) + file_name)
+    df = utils.read_csv(utils.get_data_ssq_count_file_path())
     data = df['count']
 
     # 计算每百万区间内的数据个数

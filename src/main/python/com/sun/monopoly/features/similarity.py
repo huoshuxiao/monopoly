@@ -10,7 +10,7 @@ from com.sun.monopoly.config.logger import logger
 
 
 # 生成号码与之前数据的相似度
-def ssq(bonus):
+def ssq(bonus, numbers):
     df = utils.read_csv(utils.get_data_raw_ssq_file_path())
     red1 = df['red1'].to_list()
     red2 = df['red2'].to_list()
@@ -23,7 +23,11 @@ def ssq(bonus):
 
     red_data = []
     blue_data = []
-    for i in range(0, len(red1)):
+    index_start = 0
+    if numbers is not None:
+        index_start = len(red1) - numbers
+
+    for i in range(index_start, len(red1)):
         row = [str(red1[i]), str(red2[i]), str(red3[i]), str(red4[i]), str(red5[i]), str(red6[i])]
         red_data.append(','.join(row))
 
@@ -31,14 +35,14 @@ def ssq(bonus):
         blue_data.append(','.join(row))
 
     result = []
-    i = len(red_data)
-    red_text = red_data[0:i]
-    blue_text = blue_data[0:i]
+    count = len(red_data)
+    red_text = red_data[0:count]
+    blue_text = blue_data[0:count]
 
     bonus_date = datetime.date.today().strftime(consts.FORMAT_DATE)
 
     # 计算相似度
-    for j in range(0, len(red_text) - 1):
+    for j in range(0, count):
         pool_data = red_text[j] + ',B' + blue_text[j]
         bonus_data = ','.join(bonus.split(',')[0:6]) + ',B' + ','.join(bonus.split(',')[6:7])
         score = __similarity_score__(pool_data, bonus_data)
@@ -54,7 +58,7 @@ def ssq(bonus):
         }
         result.append(data)
 
-    utils.write_csv(str(utils.get_data_ssq_similarity_file_path()) + '_' + bonus_date, ['date', 'current', 'pool', 'score', '_date'], result)
+    utils.write_csv(str(utils.get_data_ssq_similarity_file_path()) + '_{}_{}'.format(bonus_date, datetime.datetime.now().strftime(consts.FORMAT_TIME)), ['date', 'current', 'pool', 'score', '_date'], result)
     # 各相似度 数量
     # print(pd.DataFrame.from_records(result)['score'].value_counts())
     similarity_result = pd.DataFrame.from_records(result)['score'].value_counts()
