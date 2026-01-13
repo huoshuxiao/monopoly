@@ -33,7 +33,7 @@ def __run_ssq__():
 
 def __get_ssq_random_count__():
     # 定义区间范围 数据个数 >=45
-    ranges = consts.RANGE_SSQ
+    ranges = consts.RANDOM_RANGE_SSQ
     # logger.info(r'<<{}>> range :: {}'.format(tag, ranges))
 
     # numpy.random.choice() 从多个区间中选择一个值
