@@ -9,10 +9,14 @@ handlers:
     formatter: simple
     stream: ext://sys.stdout
   file:
-    class: logging.FileHandler
+    class: logging.handlers.TimedRotatingFileHandler # 按日备份
     level: DEBUG
     formatter: simple
-    filename: /home/sunwenkun/Developer/workspace/monopoly.git/logs/monopoly.log
+    filename: /logs/monopoly.log
+    when: D                  # 按天轮转 ('D' 表示每天, 'H' 表示每小时, 'MIDNIGHT' 表示午夜)
+    interval: 1              # 轮转的时间间隔 (与 'when' 配合使用)
+    backupCount: 7           # 保留多少个备份文件 (例如，保留最近7天的日志)
+    encoding: utf8           # 日志文件编码
 loggers:
   monopoly:
     level: INFO

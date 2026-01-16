@@ -46,7 +46,7 @@ def ssq(bonus, numbers):
         pool_data = red_text[j] + ',B' + blue_text[j]
         bonus_data = ','.join(bonus.split(',')[0:6]) + ',B' + ','.join(bonus.split(',')[6:7])
         score = __similarity_score__(pool_data, bonus_data)
-        print("日期：{} 当期号码：{} 池号码：{} 相似度得分:{} ".format(bonus_date, bonus_data.replace('B', ''), pool_data.replace('B', ''), score))
+        # print("日期：{} 当期号码：{} 池号码：{} 相似度得分:{} ".format(bonus_date, bonus_data.replace('B', ''), pool_data.replace('B', ''), score))
         # logger.info("日期：{} 当期号码：{} 池号码：{} 相似度得分:{} ".format(bonus_date, bonus_data.replace('B', ''), pool_data.replace('B', ''), score))
 
         data = {
