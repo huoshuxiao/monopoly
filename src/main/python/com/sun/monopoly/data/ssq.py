@@ -1,24 +1,33 @@
 # 数据爬取
 
 import requests
+import warnings
 from bs4 import BeautifulSoup
 
 from com.sun.monopoly.common import utils, consts
 from com.sun.monopoly.config.logger import logger
 
+
 url = 'http://datachart.500.com/ssq/history/newinc/history.php?start=03001&end=99999&sort=1'
 tag = 'data'
 
+
+# # 忽略所有 FutureWarning
+# warnings.simplefilter(action='ignore', category=FutureWarning)
+
 def run():
     data = agent()
-    utils.write_csv(utils.get_data_raw_ssq_file_path(), consts.FIELDS_SSQ, data)
-    logger.info(r'<<{}>> {} :: {}'.format(tag, 'ssq', data[-1]))
+    if len(data) == 0:
+        logger.error('get ssq data error.')
+    else:
+        utils.write_csv(utils.get_data_raw_ssq_file_path(), consts.FIELDS_SSQ, data)
+        logger.info(r'<<{}>> {} :: {}'.format(tag, 'ssq', data[-1]))
 
 
 def agent():
     r"""agent ssq data. """
 
-    r = requests.get(url)
+    r = requests.get(url,headers={'User-Agent': 'Mozilla/5.0'})
     html = BeautifulSoup(r.text, 'lxml')
     tr = html.select("#tdata tr")
 

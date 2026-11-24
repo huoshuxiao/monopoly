@@ -92,9 +92,9 @@ def __cal_ssq_count__(bonuses):
             if bonus == t:
                 do = False
 
-        # 长度既不是 7 也不是 8 时,rerun
-        if len(str(i)) not in (7, 8):
-            __cal_ssq_count__(bonuses)
-
         logger.info(r'<<{}>> bonus :: {}, count :: {}'.format(tag, bonus, i))
+        # 长度既不是 7 也不是 8 时,重新计算
+        if len(str(i)) not in (7, 8):
+            return __cal_ssq_count__(bonuses)  # 修正：添加 return, 以确保递归调用的结果被正确返回
+
         return i
